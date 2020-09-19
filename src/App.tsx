@@ -1,6 +1,14 @@
-import React from "react";
-import Chat from "./containers/Chat/Chat";
+import React, { useState } from "react";
+import Layout from "./containers/Layout/Layout";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import Channel from "./containers/Channel/Channel";
+import Login from "./containers/Login/Login";
 
 const theme = createMuiTheme({
   palette: {
@@ -20,9 +28,30 @@ const theme = createMuiTheme({
 });
 
 function App() {
+  const [user, setUser] = useState(null);
+
   return (
     <ThemeProvider theme={theme}>
-      <Chat />
+      <Router>
+        <Switch>
+          {user ? (
+            <Layout>
+              <Route path="/room/:roomId">
+                <Channel />
+              </Route>
+            </Layout>
+          ) : (
+            <>
+              <Route path="/">
+                <Redirect to="/login" />{" "}
+              </Route>
+              <Route path="/login" exact>
+                <Login />
+              </Route>
+            </>
+          )}
+        </Switch>
+      </Router>
     </ThemeProvider>
   );
 }

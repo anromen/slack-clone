@@ -6,17 +6,19 @@ import CloseIcon from "@material-ui/icons/Close";
 
 type OptionProps = {
   variant: "link" | "button";
+  text: string;
+  id?: string;
 };
 
-const SidebarOption: React.FC<OptionProps> = ({ variant }) => {
+const SidebarOption: React.FC<OptionProps> = ({ variant, text, id }) => {
   return variant === "link" ? (
-    <S.SidebarLink>
+    <S.SidebarLink href={id && `/room/${id}`}>
       <S.Option>
         <S.OptionIconWrapper></S.OptionIconWrapper>
         <S.OptionContent>
           <S.OptionName>
             <S.OptionNameIcon>#</S.OptionNameIcon>
-            Algo
+            {text}
           </S.OptionName>
           <S.OptionCloseIcon>
             <CloseIcon />

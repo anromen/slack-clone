@@ -1,10 +1,9 @@
 import React from "react";
-import { Grid, Box } from "@material-ui/core";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
-import * as S from "./Chat.style";
+import * as S from "./Layout.style";
 
-const Chat = () => {
+const Chat: React.FC<any> = ({ children }) => {
   return (
     <S.MainSection>
       <S.HeaderSection>
@@ -12,6 +11,7 @@ const Chat = () => {
       </S.HeaderSection>
       <S.ContentSection>
         <Sidebar />
+        {children}
       </S.ContentSection>
     </S.MainSection>
   );
