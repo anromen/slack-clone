@@ -82,3 +82,26 @@ export const MessageInput = styled.input`
   padding: 16px;
   font-size: 16px;
 `;
+
+export const SendMessageButton = styled.button`
+  outline: none;
+  border: none;
+  background-color: #62ab6c;
+  color: #fff;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+
+  position: absolute;
+  bottom: 21px;
+  right: 37px;
+  z-index: 1;
+
+  &:hover {
+    background-color: #4e8856;
+  }
+`;

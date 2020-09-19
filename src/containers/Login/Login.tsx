@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as S from "./Login.style";
 import { auth, provider } from "../../firebase.config";
+import { StateContext } from "../../context/StateProvider";
 
 const Login = () => {
+  const { dispatch } = useContext(StateContext);
+
   const signIn = () => {
     auth
       .signInWithPopup(provider)
-      .then((result) => console.log("#result", result))
+      .then((result) => dispatch({ type: "SET_USER", payload: result.user }))
       .catch((error) => console.error(error.message));
   };
 

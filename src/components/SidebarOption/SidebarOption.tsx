@@ -3,6 +3,7 @@ import * as S from "./SidebarOption.style";
 
 //Icons
 import CloseIcon from "@material-ui/icons/Close";
+import { useHistory } from "react-router-dom";
 
 type OptionProps = {
   variant: "link" | "button";
@@ -11,8 +12,14 @@ type OptionProps = {
 };
 
 const SidebarOption: React.FC<OptionProps> = ({ variant, text, id }) => {
+  const history = useHistory();
+
+  const handleClick = () => {
+    history.push(`/room/${id}`);
+  };
+
   return variant === "link" ? (
-    <S.SidebarLink href={id && `/room/${id}`}>
+    <S.SidebarLink onClick={handleClick}>
       <S.Option>
         <S.OptionIconWrapper></S.OptionIconWrapper>
         <S.OptionContent>

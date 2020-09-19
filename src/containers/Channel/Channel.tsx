@@ -1,7 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import db from "../../firebase.config";
 import * as S from "./Channel.style";
+import SendIcon from "@material-ui/icons/Send";
+import firebase from "firebase";
+import { StateContext } from "../../context/StateProvider";
 
 type Message = {
   message: string;
@@ -14,7 +17,11 @@ type Message = {
 };
 
 const Channel = () => {
+  const {
+    state: { user },
+  } = useContext(StateContext);
   const { roomId } = useParams<{ roomId: string }>();
+  const [input, setInput] = useState<string>("");
   const [room, setRoom] = useState<any>(null);
   const [messages, setMessages] = useState<any>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -39,7 +46,20 @@ const Channel = () => {
       );
   }, [roomId]);
 
-  console.log("#messages", messages);
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (roomId && input.length) {
+      db.collection("rooms").doc(roomId).collection("messages").add({
+        message: input,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        user: user.displayName,
+        userIcon: user.photoURL,
+      });
+
+      setInput("");
+    }
+  };
 
   return (
     <S.Channel>
@@ -66,7 +86,14 @@ const Channel = () => {
       </S.ChatMessages>
 
       <S.NewMessageBox>
-        <S.MessageInput placeholder="Escribe un mensaje a #channel name" />
+        <S.MessageInput
+          placeholder={`Escribe un mensaje a #${room?.name}`}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <S.SendMessageButton type="submit" onClick={onSubmit}>
+          <SendIcon />
+        </S.SendMessageButton>
       </S.NewMessageBox>
     </S.Channel>
   );

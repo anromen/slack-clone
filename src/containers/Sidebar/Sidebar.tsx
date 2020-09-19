@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box } from "@material-ui/core";
 import * as S from "./Sidebar.style";
 import SidebarOption from "../../components/SidebarOption/SidebarOption";
@@ -10,6 +10,7 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 import AddIcon from "@material-ui/icons/Add";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { StateContext } from "../../context/StateProvider";
 
 const SectionHeader: React.FC<any> = ({ onAdd }) => {
   return (
@@ -46,11 +47,11 @@ const Section = ({ rooms, onAdd }: { rooms: Array<any>; onAdd: Function }) => {
   );
 };
 
-const WorkspaceHeader = () => {
+const WorkspaceHeader = ({ title }) => {
   return (
     <S.WorkspaceButton>
       <S.WorkspaceName>
-        Whatever
+        {title}
         <ArrowDropDownIcon />
       </S.WorkspaceName>
       <S.MessageButton>
@@ -61,6 +62,9 @@ const WorkspaceHeader = () => {
 };
 
 const Sidebar = () => {
+  const {
+    state: { user },
+  } = useContext(StateContext);
   const [channels, setChannels] = useState<Array<any>>([]);
 
   useEffect(() => {
@@ -83,7 +87,7 @@ const Sidebar = () => {
 
   return (
     <Box width="260px" height="100%" bgcolor="rgb(63, 14, 64)">
-      <WorkspaceHeader />
+      <WorkspaceHeader title={user?.displayName} />
       <Section rooms={channels} onAdd={handleChannelAdd} />
     </Box>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Layout from "./containers/Layout/Layout";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import {
@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import Channel from "./containers/Channel/Channel";
 import Login from "./containers/Login/Login";
+import { StateContext } from "./context/StateProvider";
 
 const theme = createMuiTheme({
   palette: {
@@ -28,7 +29,9 @@ const theme = createMuiTheme({
 });
 
 function App() {
-  const [user, setUser] = useState(null);
+  const {
+    state: { user },
+  } = useContext(StateContext);
 
   return (
     <ThemeProvider theme={theme}>

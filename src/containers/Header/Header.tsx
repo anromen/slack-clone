@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Grid, Box } from "@material-ui/core";
 import * as S from "./Header.style";
 
@@ -7,8 +7,13 @@ import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import SearchIcon from "@material-ui/icons/Search";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import { StateContext } from "../../context/StateProvider";
 
 const Header = () => {
+  const {
+    state: { user },
+  } = useContext(StateContext);
+
   return (
     <Box width="100%" padding="5px 15px" bgcolor="primary.main">
       <Grid container alignItems="center">
@@ -39,7 +44,11 @@ const Header = () => {
         <Grid item md={4} xs={1} sm={2}>
           <Box display="flex" justifyContent="flex-end">
             <Box position="relative">
-              <S.Avatar src="/static/images/avatar/1.jpg" variant="square" />
+              <S.Avatar
+                src={user?.photoURL}
+                alt={user?.displayName}
+                variant="square"
+              />
               <Box
                 display="flex"
                 justifyContent="flex-end"
